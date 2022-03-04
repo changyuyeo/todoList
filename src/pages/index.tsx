@@ -1,12 +1,25 @@
-import { NextPage } from 'next'
-import styled from 'styled-components'
+import { GetServerSideProps, NextPage } from 'next'
 
-const Container = styled.div`
-	font-style: italic;
-`
+import { TodoType } from '@typings/todo'
+import TodoList from '@components/TodoList'
+import { getTodosAPI } from '@lib/api/todo'
 
-const HomePage: NextPage = () => {
-	return <Container>HomePage</Container>
+interface Props {
+	todos: TodoType[]
+}
+
+const HomePage: NextPage<Props> = ({ todos }) => {
+	return <TodoList todos={todos} />
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	try {
+		const { data } = await getTodosAPI()
+		return { props: { todos: data } }
+	} catch (error) {
+		console.error(error)
+		return { props: {} }
+	}
 }
 
 export default HomePage
