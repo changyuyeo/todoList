@@ -3,7 +3,7 @@ import { AxiosPromise } from 'axios'
 import { todos } from '@lib/api'
 import { TodoType } from '@typings/todo'
 
-interface AddTodoAPIBody {
+export interface AddTodoAPIBody {
 	text: string
 	color: TodoType['color']
 }
@@ -11,11 +11,14 @@ interface AddTodoAPIBody {
 //* TodoList 조회 API
 export const getTodosAPI = (): AxiosPromise<TodoType[]> => todos.get('/')
 
-//* TodoItem 체크 API
-export const checkTodoAPI = (id: number) => todos.patch(`/${id}`)
-
 //* TodoItem 추가 API
-export const addTodoAPI = (body: AddTodoAPIBody) => todos.post('/', body)
+export const addTodoAPI = (body: AddTodoAPIBody): AxiosPromise<TodoType> =>
+	todos.post('/', body)
+
+//* TodoItem 체크 API
+export const checkTodoAPI = (id: number): AxiosPromise<{ id: number }> =>
+	todos.patch(`/${id}`)
 
 //* TodoIteme 삭제 API
-export const deleteTodoAPI = (id: number) => todos.delete(`/${id}`)
+export const deleteTodoAPI = (id: number): AxiosPromise<{ id: number }> =>
+	todos.delete(`/${id}`)

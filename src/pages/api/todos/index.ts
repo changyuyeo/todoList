@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Data from '@lib/data'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+	//* GET /api/todos
+	//* 리스트 조회 API
 	if (req.method === 'GET') {
 		try {
 			const todos = Data.todo.getList()
@@ -14,6 +16,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 	}
 
+	//* POST /api/todos
+	//* 아이템 추가 API
 	if (req.method === 'POST') {
 		const { text, color } = req.body
 		if (!text || !color) {
@@ -23,17 +27,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const todos = Data.todo.getList()
 		let todoId: number
 		todos.length > 0 ? (todoId = todos[todos.length - 1].id + 1) : (todoId = 1)
-		Data.todo.write([
-			...todos,
-			{
-				id: todoId,
-				text,
-				color,
-				checked: false
-			}
-		])
+		const newTodo = {
+			id: todoId,
+			text,
+			color,
+			checked: false
+		}
+		Data.todo.write([...todos, newTodo])
 		res.statusCode = 200
-		return res.end()
+		return res.send(newTodo)
 	}
 
 	res.statusCode = 405

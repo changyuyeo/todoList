@@ -1,11 +1,16 @@
-# next typescript template
+# todoList_with_next.js
 
-next typescript template
+todoList_with_next.js
 
 - next
 - typescript
-- eslint
-- prettier
-- husky
-- lint-staged
-- sass (필요없으면 지우기)
+- styled-components
+- redux-toolkit
+
+<br />
+
+.env.local
+
+```
+NEXT_PUBLIC_API_URL=...
+```

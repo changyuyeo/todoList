@@ -21,6 +21,7 @@ module.exports = {
 		'@typescript-eslint/no-var-requires': 'off',
 		'@typescript-eslint/no-unused-vars': 'off',
 		'react/react-in-jsx-scope': 'off',
+		'no-case-declarations': 'off',
 		'react/prop-types': 'off',
 		'no-unused-vars': 'off',
 		'no-undef': 'off'

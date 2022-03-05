@@ -1,25 +1,24 @@
 import { GetServerSideProps, NextPage } from 'next'
 
-import { TodoType } from '@typings/todo'
-import TodoList from '@components/TodoList'
+import { wrapper } from '@store/index'
+import { setTodo } from '@store/todo'
 import { getTodosAPI } from '@lib/api/todo'
+import TodoList from '@components/TodoList'
 
-interface Props {
-	todos: TodoType[]
+const HomePage: NextPage = () => {
+	return <TodoList />
 }
 
-const HomePage: NextPage<Props> = ({ todos }) => {
-	return <TodoList todos={todos} />
-}
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	try {
-		const { data } = await getTodosAPI()
-		return { props: { todos: data } }
-	} catch (error) {
-		console.error(error)
-		return { props: {} }
-	}
-}
+export const getServerSideProps: GetServerSideProps =
+	wrapper.getServerSideProps(({ dispatch }) => async () => {
+		try {
+			const { data } = await getTodosAPI()
+			dispatch(setTodo(data))
+			return { props: {} }
+		} catch (error) {
+			console.error(error)
+			return { props: {} }
+		}
+	})
 
 export default HomePage

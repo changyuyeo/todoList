@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Data from '@lib/data'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+	//* PATCH /api/todos/:id
+	//* 아이템 체크 API
 	if (req.method === 'PATCH') {
 		try {
 			const todoId = Number(req.query.id)
@@ -17,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			})
 			Data.todo.write(changedTodos)
 			res.statusCode = 200
-			return res.end()
+			return res.send({ id: todoId })
 		} catch (error) {
 			console.log(error)
 			res.statusCode = 500
@@ -25,6 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 	}
 
+	//* DELETE /api/todos/:id
+	//* 아이템 삭제 API
 	if (req.method === 'DELETE') {
 		try {
 			const todoId = Number(req.query.id)
@@ -37,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			const filterTodos = todos.filter(todo => todo.id !== todoId)
 			Data.todo.write(filterTodos)
 			res.statusCode = 200
-			return res.end()
+			return res.send({ id: todoId })
 		} catch (error) {
 			console.log(error)
 			res.statusCode = 500
